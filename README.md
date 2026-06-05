@@ -1,9 +1,20 @@
 # mbxmaphook
 
-## Setup
+A client-side Fabric mod that hooks into [MineboxAdditions](https://modrinth.com/mod/mineboxadditions) for Harvestables and automatically creates waypoints to map mods.
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+## Requirements
 
-## License
+| Mod | Version |
+|---|---|
+| Minecraft | 26.1.2 |
+| MineboxAdditions | 1.15.4 |
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+## Map Mod Support
+
+At least one of the following is needed for waypoints to appear:
+
+- **JourneyMap** — waypoints are registered through the official JourneyMap API.
+- **Xaero's Minimap + Xaero's World Map** — waypoints are written directly to Xaero files. **Both mods are required** for my Xaero integration to work.
+
+Both integrations are optional — the mod loads fine without either.
+No user interaction needed
