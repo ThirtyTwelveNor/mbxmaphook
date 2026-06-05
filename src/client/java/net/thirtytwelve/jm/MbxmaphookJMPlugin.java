@@ -72,12 +72,17 @@ public class MbxmaphookJMPlugin implements IClientPlugin {
 
     public void makeWaypoint(String name, String dimension, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
-        Waypoint waypoint = WaypointFactory.createWaypoint(Mbxmaphook.MOD_ID, pos, name, dimension, true);
-        // Set default colors (optional - you can modify these)
-        waypoint.setColor(0x00FFFF); // Light blue color
-        waypoint.setEnabled(true);
 
-        // Add the waypoint to JourneyMap
+        boolean exists = jmAPI.getWaypoints(Mbxmaphook.MOD_ID).stream().anyMatch(wp ->
+                wp.getName().equals(name) &&
+                wp.getBlockPos().equals(pos) &&
+                wp.getPrimaryDimension().equals(dimension)
+        );
+        if (exists) return;
+
+        Waypoint waypoint = WaypointFactory.createWaypoint(Mbxmaphook.MOD_ID, pos, name, dimension, true);
+        waypoint.setColor(0x00FFFF);
+        waypoint.setEnabled(true);
         jmAPI.addWaypoint(Mbxmaphook.MOD_ID, waypoint);
     }
 

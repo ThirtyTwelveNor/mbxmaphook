@@ -38,6 +38,7 @@ repositories {
 		}
 	}
 }
+//noinspection ConfigurationAvoidance
 configurations.all {
 	resolutionStrategy.cacheChangingModulesFor 0, "seconds"
 }
@@ -59,7 +60,7 @@ dependencies {
 	compileOnly "maven.modrinth:mineboxadditions:${mineboxadditions_version}"
 }
 
-processResources {
+tasks.withType(ProcessResources).configureEach {
 	def version = project.version
 	inputs.property "version", version
 

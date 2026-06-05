@@ -5,13 +5,13 @@
 	"name": "mbxmaphook",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"ThirtyTwelve"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "mailto:mbxmaphook@thirtytwelve.net",
+		"sources": "https://github.com/ThirtyTwelveNor/mbxmaphook"
 	},
-	"license": "CC0-1.0",
+	"license": "GPL-3.0",
 	"icon": "assets/mbxmaphook/icon.png",
 	"environment": "*",
 	"entrypoints": {
