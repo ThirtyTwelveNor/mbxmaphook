@@ -122,9 +122,9 @@ public class HarvestableWaypoints {
     }
 
     private static void showLoadingTitle(Minecraft client) {
-        client.gui.setTimes(10, 200, 20);
+        client.gui.setTimes(10, 100, 20);
         client.gui.setTitle(Component.literal("Loading waypoints"));
-        client.gui.setSubtitle(Component.literal("Adding new locations to your map"));
+        client.gui.setSubtitle(Component.literal("might require relog"));
     }
 
     private static String dimensionKey(Level level) {

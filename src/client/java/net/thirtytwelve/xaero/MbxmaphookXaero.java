@@ -48,13 +48,18 @@ public class MbxmaphookXaero {
         Path file = resolveFile(dimension);
 
         String initials = name.substring(0, 1).toUpperCase();
-        String newLine = String.format(
+        String namedLine = String.format(
                 "waypoint:%s:%s:%d:%d:%d:7:false:0:%s:false:0:1:false",
                 name, initials, x, y, z, name
+        );
+        String allLine = String.format(
+                "waypoint:%s:%s:%d:%d:%d:7:false:0:all:false:0:1:false",
+                name, initials, x, y, z
         );
 
         List<String> existingWaypoints = new ArrayList<>();
         Set<String> sets = new LinkedHashSet<>();
+        sets.add("all");
 
         if (file.toFile().exists()) {
             try {
@@ -66,7 +71,8 @@ public class MbxmaphookXaero {
             } catch (IOException e) { throw new RuntimeException(e); }
         }
 
-        existingWaypoints.add(newLine);
+        existingWaypoints.add(namedLine);
+        existingWaypoints.add(allLine);
         sets.add(name);
 
         StringBuilder sb = new StringBuilder();
