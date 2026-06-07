@@ -14,7 +14,7 @@ A client-side Fabric mod that hooks into [MineboxAdditions](https://modrinth.com
 At least one of the following is needed for waypoints to appear:
 
 - **JourneyMap** — waypoints are registered through the official JourneyMap API.
-- **Xaero's Minimap + Xaero's World Map** — waypoints are written directly to Xaero files. **Both mods are required** for my Xaero integration to work.
+- **Xaero's Minimap + Xaero's World Map** — waypoints are written directly to Xaero files. **Both mods are required**, and you need to relogin after waypoint creation for my Xaero integration to work.
 
 Both integrations are optional — the mod loads fine without either.
 No user interaction needed

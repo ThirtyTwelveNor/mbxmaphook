@@ -31,10 +31,7 @@ public class MbxmaphookJMPlugin implements IClientPlugin {
         // Get all waypoints from our mod
         List<? extends Waypoint> myWaypoints = jmAPI.getWaypoints(Mbxmaphook.MOD_ID);
 
-        // Track created groups by name
-        Map<String, WaypointGroup> groupsByName = new HashMap<>();
-
-        // First, collect all waypoint names and their counts
+        // Collect ungrouped waypoints by name
         Map<String, List<Waypoint>> waypointsByName = new HashMap<>();
 
         for (Waypoint waypoint : myWaypoints) {
@@ -52,38 +49,54 @@ public class MbxmaphookJMPlugin implements IClientPlugin {
             String waypointName = entry.getKey();
             List<Waypoint> waypoints = entry.getValue();
 
-            if (waypoints.size() > 1) {
-                WaypointGroup group = groupsByName.get(waypointName);
-                if (group == null) {
-                    group = WaypointFactory.createWaypointGroup(Mbxmaphook.MOD_ID, waypointName);
-                    group.setEnabled(false);
-                    group.setColorOverride(true);
-                    jmAPI.addWaypointGroup(group);
-                    groupsByName.put(waypointName, group);
-                }
+            if (waypoints.size() <= 1) continue;
 
-                // Add all waypoints to the group
-                for (Waypoint waypoint : waypoints) {
-                    group.addWaypoint(waypoint);
-                }
+            WaypointGroup group = jmAPI.getWaypointGroupByName(Mbxmaphook.MOD_ID, waypointName);
+            if (group == null) {
+                group = WaypointFactory.createWaypointGroup(Mbxmaphook.MOD_ID, waypointName);
+                group.setEnabled(false);
+                group.setColorOverride(true);
+                jmAPI.addWaypointGroup(group);
+            }
+
+            for (Waypoint waypoint : waypoints) {
+                group.addWaypoint(waypoint);
             }
         }
     }
 
     public void makeWaypoint(String name, String dimension, int x, int y, int z) {
-        BlockPos pos = new BlockPos(x, y, z);
+        makeWaypoint(name, dimension, x, y, z, null);
+    }
 
-        boolean exists = jmAPI.getWaypoints(Mbxmaphook.MOD_ID).stream().anyMatch(wp ->
-                wp.getName().equals(name) &&
-                wp.getBlockPos().equals(pos) &&
-                wp.getPrimaryDimension().equals(dimension)
-        );
-        if (exists) return;
+    public void makeWaypoint(String name, String dimension, int x, int y, int z, java.util.Set<String> existingKeys) {
+        BlockPos pos = new BlockPos(x, y, z);
+        String key = name + "|" + dimension + "|" + x + "|" + y + "|" + z;
+
+        if (existingKeys != null) {
+            if (existingKeys.contains(key)) return;
+        } else {
+            boolean exists = jmAPI.getWaypoints(Mbxmaphook.MOD_ID).stream().anyMatch(wp ->
+                    wp.getName().equals(name) &&
+                    wp.getBlockPos().equals(pos) &&
+                    wp.getPrimaryDimension().equals(dimension)
+            );
+            if (exists) return;
+        }
 
         Waypoint waypoint = WaypointFactory.createWaypoint(Mbxmaphook.MOD_ID, pos, name, dimension, true);
         waypoint.setColor(0x00FFFF);
         waypoint.setEnabled(true);
         jmAPI.addWaypoint(Mbxmaphook.MOD_ID, waypoint);
+    }
+
+    public java.util.Set<String> buildExistingKeys() {
+        java.util.Set<String> keys = new java.util.HashSet<>();
+        for (Waypoint wp : jmAPI.getWaypoints(Mbxmaphook.MOD_ID)) {
+            BlockPos p = wp.getBlockPos();
+            keys.add(wp.getName() + "|" + wp.getPrimaryDimension() + "|" + p.getX() + "|" + p.getY() + "|" + p.getZ());
+        }
+        return keys;
     }
 
     @SuppressWarnings("UnstableApiUsage")
